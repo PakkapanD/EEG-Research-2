@@ -232,10 +232,18 @@ patient. Both are properties of this study design, not oversights.
 
 ## AI assistance
 
-Claude Code (Anthropic) wrote the code, ran the experiments and produced the
-generated documents in this repository, including this README. Scope,
-decisions and approvals are the project owner's. `AI-ASSISTANCE.md` states the
-split file by file and is the authoritative version of this paragraph.
+The author used Claude (Sonnet 5 and Opus 5 models) to write and test all
+the Python code, AI-ASSISTANCE.md, and README.md, and to review the writing
+for language consistency, logical consistency, grammar, and consistency
+between the writing and the code. The author inspected and revised the code
+before the final analysis was run, and reviewed the markdown files' content
+as needed. The author takes full responsibility for the content of the
+research. The repository contains the final reviewed code used to produce
+the reported results.
+
+`AI-ASSISTANCE.md` carries the same statement in Thai, plus a file-by-file
+breakdown of what was written by whom and where each research decision and its
+approval is recorded.
 
 ## Reuse
 
