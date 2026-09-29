@@ -9,6 +9,7 @@ worst outcome this project can produce. There are currently three - D1, D2, D3
 below - plus one performance rewrite that changed no feature values.
 """
 
+import importlib.metadata
 import json
 import platform
 import sys
@@ -19,8 +20,10 @@ import mne
 import numba
 import numpy as np
 import pandas as pd
+import plotnine
 import scipy
 import sklearn
+import timescoring
 
 from audit import REQUIRED_CHANNELS, GLASS7_DEPENDENCY
 from features import BANDS, AZC_THRESHOLDS_UV, FEATURE_NAMES, N_FEATURES
@@ -173,6 +176,26 @@ GLASS7_VS_BEST7_COMPARABILITY = {
             "base and pool difference.",
     "identified": "Project owner, 2026-08-30, in an interactive session with Claude Code.",
     "must_be_stated_in_paper": True,
+    # Added to the generator 2026-09-29. This block was written straight into
+    # output/metadata.json on 2026-09-03 and a later re-run of this script wiped
+    # it, because the script is the only writer of that file. Anything that has
+    # to survive belongs here, not in the generated JSON.
+    "problem_2_quantified": {
+        "measured": "Re-scored every Tier A config (rf) at its locked percentile-calibrated "
+                "operating points on the Tier B file subset and compared to Tier A. SzCORE: "
+                "micro-sensitivity +0.003 to +0.008 absolute (mean +0.005; e.g. Full-18/LOO "
+                "0.366 -> 0.374, +2.2% relative, matching the 4/181 denominator drop). "
+                "micro-FA/day -4.3% to +3.1% (mean +1.7%; sign depends on whether the dropped "
+                "files carried more false positives or more recorded hours). Per-subject pass "
+                "rate (the locked primary metric): unchanged for every config and criterion "
+                "(delta 0.0 pp). Ali rule: micro-sensitivity shift <=+0.003, pass rate delta "
+                "0.0 pp. Conclusion: the Tier A->B base change flatters Glass-7 on the "
+                "continuous metrics by well under one sensitivity point and a few percent FA, "
+                "and not at all on the pass/fail conclusion.",
+        "script": "src/glass7_tier_effect.py",
+        "output": "output/01b_tier_effect_glass7.md (+ 01b_tier_effect_glass7_raw.csv)",
+        "computed": "Claude Code, 2026-09-03",
+    },
 }
 
 # Not a deviation - no feature value changed - but it explains why features.py
@@ -409,8 +432,24 @@ def build_metadata():
             "mne": mne.__version__,
             "antropy": antropy.__version__,
             "numba": numba.__version__,
+            # Both scoring rules run on timescoring, and the paper quotes the
+            # version in Methods - record it so the claim has a receipt.
+            "timescoring": _version_of("timescoring", timescoring),
+            "plotnine": _version_of("plotnine", plotnine),
         },
     }
+
+
+def _version_of(dist_name, module):
+    """Package version, preferring the installed distribution metadata because
+    not every package exposes __version__ (timescoring 0.0.7 does not)."""
+    version = getattr(module, "__version__", None)
+    if version:
+        return version
+    try:
+        return importlib.metadata.version(dist_name)
+    except importlib.metadata.PackageNotFoundError:
+        return "unknown"
 
 
 def main():
@@ -419,6 +458,7 @@ def main():
     out_path = OUTPUT_DIR / "metadata.json"
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(meta, f, indent=2, ensure_ascii=False)
+        f.write("\n")
     print(f"wrote {out_path}")
     print(f"  deviations recorded: D1 subject set, D2 windowing, D3 feature scope")
     print(f"  comparison limitations recorded: Glass-7 vs Best-7 comparability")

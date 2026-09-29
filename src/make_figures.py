@@ -34,14 +34,13 @@ CRITERION_LABEL = {
 }
 HARD_CASE_COLOR = "#d62728"
 
-# Zanetti 2025's two reported operating points (CLAUDE.md section 13): the
-# project's tier-1 benchmark. Ali 2024's equivalent operating point is not
-# recorded anywhere in this repo (checked CLAUDE.md + docs/06-spec2...) -
-# omitted rather than guessed; add if the project owner supplies it.
-ZANETTI_2025_POINTS = [
-    {"label": "Zanetti 2025, 18ch", "sens": 0.80, "fa": 1.81},
-    {"label": "Zanetti 2025, 2ch", "sens": 0.64, "fa": 2.35},
-]
+# Zanetti 2025's two operating points used to be overlaid on the tradeoff plot.
+# Removed 2026-09-28: their evaluation is personalized (the model has seen the
+# patient it is scored on) while every curve here is strictly cross-subject, so
+# plotting both on one pair of axes invites a comparison on a scale the two do
+# not share. The comparison is made in the Discussion instead, where the caveat
+# fits in the same sentence. The two pre-registered sufficiency zones stay as
+# the reference the paper actually locked in (CLAUDE.md section 14).
 
 
 def _family_of(config):
@@ -165,12 +164,6 @@ def fig2_tradeoff():
             color = cmap_best(0.35 + 0.55 * (nch / 18))
         ax.plot(cdf.fa_per_day_szcore.clip(lower=1e-3), cdf.sens_szcore,
                 color=color, linewidth=2, label=f"{config} ({nch}ch)", zorder=3)
-
-    for pt in ZANETTI_2025_POINTS:
-        ax.scatter(pt["fa"], pt["sens"], marker="*", s=220, color="#e6194b",
-                   edgecolor="white", linewidth=0.8, zorder=5)
-        ax.annotate(pt["label"], (pt["fa"], pt["sens"]), xytext=(6, -12),
-                    textcoords="offset points", fontsize=8, color="#e6194b")
 
     ax.set_xscale("log")
     ax.set_xlim(1e-2, 3e2)

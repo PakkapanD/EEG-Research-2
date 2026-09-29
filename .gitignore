@@ -4,8 +4,12 @@ __pycache__/
 *.pyo
 .ipynb_checkpoints/
 
-# virtual environment
+# virtual environment (.venv is what this project uses; the other two are the
+# names a person cloning the repo is most likely to create)
 .venv/
+venv/
+env/
+.python-version
 
 # raw dataset — public on PhysioNet, too large to commit, and not ours to redistribute
 CHB-MIT Dataset/
@@ -38,6 +42,8 @@ writing/
 # where writing/ would not catch them
 ~$*.docx
 ~$*.doc
+# Word's other temp artefact, which is NOT named ~$ and lands beside the .docx
+~WRL*.tmp
 
 # OS / editor cruft
 .DS_Store

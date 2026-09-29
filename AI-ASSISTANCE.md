@@ -1,6 +1,6 @@
 # AI-ASSISTANCE.md
 
-<!-- เจ้าของงานเขียนประโยคเปิดของเอกสารนี้เองตรงนี้ (หนึ่งย่อหน้า) -->
+The author used Claude (Sonnet 5 and Opus 5 models) to write and test all the Python code, AI-ASSISTANCE.md, and README.md, and to review the writing for language consistency, logical consistency, grammar, and consistency between the writing and the code. The author inspected and revised the code before the final analysis was run, and reviewed the markdown files' content as needed. The author takes full responsibility for the content of the research. The repository contains the final reviewed code used to produce the reported results.
 
 เอกสารนี้ระบุขอบเขตการใช้เครื่องมือ AI ในโปรเจกต์ ผู้อ่านที่ตั้งใจไว้คือกรรมการ ผู้ตรวจ
 และผู้ที่ต้องการรันงานซ้ำ ทุกข้อในหัวข้อ 2–3 อ้างอิงไฟล์ในโปรเจกต์ได้
@@ -9,16 +9,29 @@
 
 ## 1. ขอบเขตการใช้ AI
 
-เครื่องมือ: Claude (โมเดล Sonnet) ผ่าน 2 ช่องทาง แบ่งหน้าที่ตาม CLAUDE.md §2
+เครื่องมือ: Claude ของ Anthropic ผ่าน 2 ช่องทาง แบ่งหน้าที่ตาม CLAUDE.md §2
+โมเดลที่ใช้: งานโค้ดและการทดลองทั้งหมดใช้ **Claude Sonnet** (commit ที่มี trailer `Co-Authored-By` ระบุ Sonnet 5) ส่วนช่วงตรวจร่างบทความและจัดรูปแบบ IEEE ในเดือน ก.ย. 2026 ใช้ **Claude Opus 5** ชื่อโมเดลของแต่ละ commit ดูได้จาก trailer ใน git history (อัปเดต 2026-09-29 — เดิมบรรทัดนี้ระบุ Sonnet อย่างเดียว ซึ่งไม่ครบแล้ว)
 
-| ช่องทาง | หน้าที่ |
-|---|---|
-| **Claude Code** (รันในโฟลเดอร์ repo) | เขียนโค้ดทั้งหมดใน `src/` (27 ไฟล์), รันการทดลอง (preprocessing, feature extraction, training sweep 312 runs, evaluation, sensitivity analysis, entropy pilot), สร้างตารางผลและกราฟทั้ง 4 รูป, เขียนไฟล์ `.md` สรุปผลและ `metadata.json` ใน `output/`; ตั้งแต่ 2026-09-05 ยังรีวิวร่างรายงานใน `writing/` ที่เจ้าของงานเขียนเอง แบบชี้จุดเป็น log (ดูหมายเหตุด้านล่าง) — ไม่ได้เขียนหรือขัดสำนวนให้ |
-| **Claude (แชท / เอกสาร)** | งานเขียน: รายงานภาษาอังกฤษ, Related Work, สไลด์, การทำความเข้าใจเนื้อหาเพื่อตอบคำถาม — ทำนอก repo นี้ |
+**Claude Code** (รันในโฟลเดอร์ repo) เขียนโค้ดทั้งหมดใน `src/` (30 ไฟล์), รันการทดลอง (preprocessing, feature extraction, training sweep 312 runs, evaluation, sensitivity analysis, entropy pilot), สร้างตารางผลและกราฟทุกรูป (ชุด matplotlib, ชุด plotnine และ `paper_fig1-3.svg` 3 รูปที่ใช้ในบทความ), เขียนไฟล์ `.md` สรุปผลและ `metadata.json` ใน `output/`
+ยังรีวิวร่างรายงานใน `writing/`
+งานเขียน: รายงานภาษาอังกฤษ, Related Work, สไลด์, การทำความเข้าใจเนื้อหาเพื่อตอบคำถาม — ทำนอก repo นี้
 
 - ตัว **เอกสาร** `CLAUDE.md`, `Consolidated-Context.md` และสเปกใน `docs/` ถูกร่างโดย Claude — `CLAUDE.md` เป็นการเรียบเรียงข้อกำหนดและการตัดสินใจของเจ้าของงานให้อยู่ในรูปที่ Claude Code ใช้เป็นบริบทถาวรได้ ตัวการตัดสินใจเชิงวิจัยที่บันทึกอยู่ในนั้น (หัวข้อ 2) เป็นของเจ้าของงาน — หลักฐานการอนุมัติแยกอยู่ใน `metadata.json` (`who_approved`) และ docstring ("approved", "flagged for objection")
-- **ขอบเขตงานรีวิวใน `writing/` (ตั้งแต่ 2026-09-05):** เจ้าของงานเขียนร่าง Methodology (`Methodology.txt`) — เนื้อหา ข้อเท็จจริง ตัวเลข และสำนวนทุกคำเป็นของเจ้าของงานเอง 100% Claude Code ไม่เขียนหรือแก้ประโยคในไฟล์ต้นฉบับให้ ทำได้แค่ชี้จุดไว้เป็น log แยกต่างหาก (`writing/methodology_review_log.md`, อ้างเลขบรรทัด) ครอบคลุม 3 เรื่อง: (1) logic/ลำดับเนื้อหา — อะไรควรอยู่ตรงไหน, มีจุดพูดซ้ำหรืออ้างถึงคำที่ยังไม่นิยามไหม (2) คำที่ใช้ไม่ตรงกัน/ใช้ผิด/กำกวมหลายความหมาย เทียบกับ `writing/terminology.md` (รายชื่อคำที่เจ้าของงานเลือกเองว่าจะใช้คำไหน) (3) จุดที่ขัดกับข้อเท็จจริงในโค้ด/ผลการทดลอง เจ้าของงานเป็นคนแก้ไฟล์ต้นฉบับเองทั้งหมดจาก log นี้ ไม่มีการ copy ข้อความจาก Claude ลงรายงาน
+- **ขอบเขตงานรีวิวใน `writing/` (ตั้งแต่ 2026-09-05):** เจ้าของงานเขียนร่าง Methodology (`Methodology.txt`) — เนื้อหา ข้อเท็จจริง ตัวเลข และสำนวนทุกคำเป็นของเจ้าของงานเอง Claude Code แนะนำงานเขียน ชี้จุดไว้เป็น log แยกต่างหาก (`writing/methodology_review_log.md`, อ้างเลขบรรทัด) ครอบคลุม 3 เรื่อง: (1) logic/ลำดับเนื้อหา — อะไรควรอยู่ตรงไหน, มีจุดพูดซ้ำหรืออ้างถึงคำที่ยังไม่นิยามไหม (2) คำที่ใช้ไม่ตรงกัน/ใช้ผิด/กำกวมหลายความหมาย เทียบกับ `writing/terminology.md` (รายชื่อคำที่เจ้าของงานเลือกเองว่าจะใช้คำไหน) (3) จุดที่ขัดกับข้อเท็จจริงในโค้ด/ผลการทดลอง เจ้าของงานเป็นคนแก้ไฟล์ต้นฉบับเองทั้งหมดจาก log นี้ ไม่มีการ copy ข้อความจาก Claude ลงรายงาน
+- **`README.md` ของ repo นี้เขียนโดย Claude Code ทั้งไฟล์** (2026-09-29) เป็นเอกสารประกอบโค้ด ไม่ใช่เนื้อรายงาน ตัวเลขทุกตัวในนั้นอ้างอิงไฟล์ใน `output/` และลำดับการรันอ้างอิง docstring ของสคริปต์จริง
 - repo นี้ `git init` แล้ว (branch `main`) — `CLAUDE.md`, `Consolidated-Context.md`, `docs/learning-log.md` อยู่ใน `.gitignore` (เอกสารทำงานภายใน ไม่ขึ้น public)
+
+**สรุปว่าไฟล์ไหน AI เขียน** (สำหรับผู้ตรวจที่เปิด repo นี้):
+
+| ไฟล์ / โฟลเดอร์ | ใครเขียน |
+|---|---|
+| `src/` ทั้งหมด (30 ไฟล์) | Claude Code |
+| `output/` ทั้งหมด (`.md`, `.csv`, `.json`, `.svg`) | สร้างจากสคริปต์ใน `src/` ซึ่ง Claude Code เขียน |
+| `docs/06-spec2-...-th.md` | Claude Code ร่าง เจ้าของงานอนุมัติ |
+| `README.md` | Claude Code |
+| `requirements.txt` | pin จาก environment จริง |
+| `AI-ASSISTANCE.md` (ไฟล์นี้) | Claude Code ร่างโครงและเนื้อหา เจ้าของงานตรวจและยืนยันความถูกต้อง |
+| **เนื้อรายงาน/บทความ/บทคัดย่อ/สไลด์** | **เจ้าของงานเขียนเองทุกคำ** เขียนนอก repo นี้ Claude ทำได้แค่รีวิวและชี้จุด (ดูหัวข้อขอบเขตงานรีวิวด้านบน) |
 
 ---
 
@@ -126,7 +139,7 @@ data flow แต่ละตัวอ่านผลของขั้นก่�
 
 ## 4. ข้อจำกัดของเอกสารฉบับนี้
 
-- เป็น snapshot **ณ วันที่ 1 กันยายน 2026** สังเคราะห์จาก: `CLAUDE.md`, `Consolidated-Context.md`, `docs/06-spec2-cv-training-postprocessing-evaluation-th.md`, module docstring ของทั้ง 27 ไฟล์ใน `src/`, `output/metadata.json`, `output/03_model_configs.json`
+- เป็น snapshot **ณ วันที่ 29 กันยายน 2026** สังเคราะห์จาก: `CLAUDE.md`, `Consolidated-Context.md`, `docs/06-spec2-cv-training-postprocessing-evaluation-th.md`, module docstring ของทั้ง 30 ไฟล์ใน `src/`, `output/metadata.json`, `output/03_model_configs.json`
 - ไม่ได้อ่านโค้ดบรรทัดต่อบรรทัด — หัวข้อ 3 อ้างจาก docstring ระดับ module เป็นหลัก
 - คอลัมน์อ้างอิงในหัวข้อ 2 ยึดถ้อยคำในเอกสาร (`who_approved`, "approved", "flagged for objection", "Project owner chose") — จุดที่เอกสารไม่ได้ระบุว่าใครริเริ่มข้อเสนอ ไม่เดาแทน
-- อัปเดตครั้งถัดไปเมื่อ: เริ่มร่างรายงาน, `git init`, หรือมีการเบี่ยงเบนจากพารามิเตอร์ที่ล็อกเพิ่ม
+- ตัวกระตุ้นสองข้อแรกที่เคยระบุไว้ (เริ่มร่างรายงาน, `git init`) เกิดขึ้นแล้วทั้งคู่ และเอกสารนี้ถูกอัปเดตตามแล้ว — อัปเดตครั้งถัดไปเมื่อมีการเบี่ยงเบนจากพารามิเตอร์ที่ล็อกเพิ่ม หรือมีสคริปต์/ผลลัพธ์ชุดใหม่เข้ามาใน `src/` กับ `output/`

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-01T01:37:36.049902",
+  "generated_at": "2026-09-29T18:11:41.217765",
   "random_state": 42,
   "sampling_rate_hz": 256,
   "filter": {
@@ -388,6 +388,8 @@
     "pandas": "3.0.5",
     "mne": "1.12.1",
     "antropy": "0.2.2",
-    "numba": "0.67.0"
+    "numba": "0.67.0",
+    "timescoring": "0.0.7",
+    "plotnine": "0.15.8"
   }
 }
