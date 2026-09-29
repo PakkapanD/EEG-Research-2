@@ -2,6 +2,15 @@
 
 ผู้เขียนใช้ Claude (โมเดล Sonnet 5 และ Opus 5) ในการเขียนและทดสอบโค้ด Python ทั้งหมด และเขียนไฟล์ AI-ASSISTANCE.md กับ README.md และใช้ในการตรวจสอบงานเขียนในด้านความสอดคล้องทางภาษา ตรรกะ ไวยากรณ์ และความสอดคล้องกันระหว่างเนื้อหาที่เขียนกับโค้ด ผู้เขียนได้ตรวจสอบและแก้ไขโค้ดก่อนที่การวิเคราะห์ครั้งสุดท้ายจะถูกรัน และตรวจสอบเนื้อหาในไฟล์ Markdown ตามความเหมาะสม ผู้เขียนรับผิดชอบต่อเนื้อหาของงานวิจัยทั้งหมดด้วยตนเอง โดย repository นี้ประกอบด้วยโค้ดฉบับล่าสุดที่ผ่านการตรวจสอบและใช้ในการสร้างผลลัพธ์ที่รายงานไว้ในงานวิจัย
 
+The author used Claude (Sonnet 5 and Opus 5 models) to write and test all
+the Python code, AI-ASSISTANCE.md, and README.md, and to review the writing
+for language consistency, logical consistency, grammar, and consistency
+between the writing and the code. The author inspected and revised the code
+before the final analysis was run, and reviewed the markdown files' content
+as needed. The author takes full responsibility for the content of the
+research. The repository contains the final reviewed code used to produce
+the reported results.
+
 เอกสารนี้ระบุขอบเขตการใช้เครื่องมือ AI ในโปรเจกต์ ผู้อ่านที่ตั้งใจไว้คือกรรมการ ผู้ตรวจ
 และผู้ที่ต้องการรันงานซ้ำ ทุกข้อในหัวข้อ 2–3 อ้างอิงไฟล์ในโปรเจกต์ได้
 
